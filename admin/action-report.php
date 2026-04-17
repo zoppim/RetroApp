@@ -98,8 +98,8 @@ $statusLabels = ['open'=>'Open','in_progress'=>'In Progress','done'=>'Done','can
     <div class="rep-summary">
       <div class="rep-stat"><div class="rep-stat__n"><?= count($items) ?></div><div class="rep-stat__l">Total Items</div></div>
       <?php
-      $mustSplit = array_filter($items, fn($i) => strpos($i['title'],'[MUST SPLIT]') === 0);
-      $consplit  = array_filter($items, fn($i) => strpos($i['title'],'[Consider splitting]') === 0);
+      $mustSplit = array_filter($items, function($i){ return strpos($i['title'],'[MUST SPLIT]') === 0; });
+      $consplit  = array_filter($items, function($i){ return strpos($i['title'],'[Consider splitting]') === 0; });
       if (count($mustSplit) || count($consplit)):
       ?>
       <div class="rep-stat" style="background:var(--color-danger-bg);border-color:var(--color-danger-border);">

@@ -170,10 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // ── Import session from JSON ──────────────────────────────────────────────
     if ($action === 'import_session') {
-        if (empty($_FILES['import_file']['tmp_name'])) {
-            flash_set('error', 'No file uploaded.'); redirect(BASE_URL.'/admin/data.php');
-        }
-        $raw = file_get_contents($_FILES['import_file']['tmp_name']);
+        $raw = validate_import_file('import_file');
         $data = json_decode($raw, true);
 
         if (!$data || !isset($data['_export_meta'])) {
@@ -267,10 +264,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // ── Import templates from backup ──────────────────────────────────────────
     if ($action === 'import_templates') {
-        if (empty($_FILES['import_file']['tmp_name'])) {
-            flash_set('error', 'No file uploaded.'); redirect(BASE_URL.'/admin/data.php');
-        }
-        $raw  = file_get_contents($_FILES['import_file']['tmp_name']);
+        $raw = validate_import_file('import_file');
         $data = json_decode($raw, true);
         if (!$data || empty($data['templates'])) {
             flash_set('error', 'No templates found in file.'); redirect(BASE_URL.'/admin/data.php');

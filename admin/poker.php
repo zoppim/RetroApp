@@ -2,7 +2,7 @@
 /**
  * Planning Poker — Lobby (Admin)
  * Create or manage poker sessions. Each session is scoped to this company.
- * Version: 1.9.9
+ * Version: 1.9.11
  */
 declare(strict_types=1);
 require_once __DIR__ . '/../config.php';

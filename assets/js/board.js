@@ -1,6 +1,6 @@
 'use strict';
 /**
- * RetroApp Board JS v1.9.9
+ * RetroApp Board JS v1.9.11
  *
  * Key improvements:
  *  1. OPTIMISTIC UI  — note appears instantly on submit (before server responds)

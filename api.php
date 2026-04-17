@@ -167,6 +167,15 @@ if ($method === 'GET') {
 // ── POST actions ──────────────────────────────────────────────────────────────
 if ($method !== 'POST') api_err('Method not allowed.', 405);
 
+// CSRF mitigation: require X-Requested-With header for all participant POSTs.
+// Browsers never send this header cross-origin without CORS preflight, which
+// we don't permit (no Access-Control-Allow-Origin: * header is set).
+// Combined with SameSite cookie policy this blocks CSRF from external pages.
+$xrw = $_SERVER['HTTP_X_REQUESTED_WITH'] ?? '';
+if (strtolower($xrw) !== 'xmlhttprequest') {
+    api_err('Forbidden: missing X-Requested-With header.', 403);
+}
+
 $roomId = input_int('room_id');
 if (!$roomId) api_err('Missing room_id.');
 

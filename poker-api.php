@@ -2,7 +2,7 @@
 /**
  * Planning Poker — API endpoint
  * Handles all AJAX calls from poker-room.php
- * Version: 1.9.9
+ * Version: 1.9.11
  */
 declare(strict_types=1);
 require_once __DIR__ . '/config.php';

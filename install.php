@@ -12,7 +12,7 @@ declare(strict_types=1);
 define('ROOT_PATH',     __DIR__);
 define('INCLUDES_PATH', __DIR__ . '/includes');
 define('INSTALL_LOCK',  __DIR__ . '/.installed');
-define('APP_VERSION',   '1.9.9'); // version written into generated config.php
+define('APP_VERSION',   '1.9.11'); // version written into generated config.php
 
 // ── If already installed, block access ────────────────────────────────────────
 if (file_exists(INSTALL_LOCK)) {
@@ -462,7 +462,7 @@ if ($step === 5 && $_SERVER['REQUEST_METHOD'] === 'GET') {
              ('4Ls', '[{\"title\":\"Liked\",\"color\":\"#22c55e\"},{\"title\":\"Learned\",\"color\":\"#3b82f6\"},{\"title\":\"Lacked\",\"color\":\"#ef4444\"},{\"title\":\"Longed For\",\"color\":\"#8b5cf6\"}]', 0),
              ('Daily Standup', '[{\"title\":\"Yesterday\",\"color\":\"#3b82f6\"},{\"title\":\"Today\",\"color\":\"#22c55e\"},{\"title\":\"Blockers\",\"color\":\"#ef4444\"}]', 0)",
             "INSERT IGNORE INTO `app_meta` (`meta_key`, `meta_value`) VALUES
-             ('app_version', '1.9.9'), ('installed_at', NOW()), ('schema_version', '1')",
+             ('app_version', '1.9.11'), ('installed_at', NOW()), ('schema_version', '1')",
             "INSERT IGNORE INTO `companies` (`id`,`name`,`team_name`) VALUES (1,'My Team','Engineering')",
         ];
         foreach ($seeds as $seed) {

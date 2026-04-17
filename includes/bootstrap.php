@@ -106,22 +106,29 @@ _bootstrap_ensure_columns([
     ['pp_players',      'comment',        '`comment` TEXT NULL AFTER `vote`'],
 ]);
 
-// ── Poker session_type ENUM — extend to include 'poker' if not present ────────
-try {
-    $colDef = db_row("SELECT COLUMN_TYPE FROM information_schema.COLUMNS
-        WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='retro_rooms' AND COLUMN_NAME='session_type'");
-    if ($colDef && strpos($colDef['COLUMN_TYPE'], "'poker'") === false) {
-        db()->exec("ALTER TABLE `retro_rooms` MODIFY COLUMN `session_type`
-            ENUM('retrospective','daily','poker') NOT NULL DEFAULT 'retrospective'");
-    }
-} catch (Throwable $e) { error_log('RetroApp auto-heal poker enum: ' . $e->getMessage()); }
+// ── ENUM auto-heals — run at most once per PHP process via static flag ────────
+// After columns exist the information_schema checks are skipped entirely.
+// Wrapped in a single static to avoid 2+ info_schema queries per request.
+static $_enumsChecked = false;
+if (!$_enumsChecked) {
+    $_enumsChecked = true;
+    // session_type ENUM: add 'poker'
+    try {
+        $colDef = db_row("SELECT COLUMN_TYPE FROM information_schema.COLUMNS
+            WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='retro_rooms' AND COLUMN_NAME='session_type'");
+        if ($colDef && strpos($colDef['COLUMN_TYPE'], "'poker'") === false) {
+            db()->exec("ALTER TABLE `retro_rooms` MODIFY COLUMN `session_type`
+                ENUM('retrospective','daily','poker') NOT NULL DEFAULT 'retrospective'");
+        }
+    } catch (Throwable $e) { error_log('RetroApp auto-heal poker enum: ' . $e->getMessage()); }
 
-// ── pp_sessions.phase ENUM — extend to include 'closed' if not present ────────
-try {
-    $ppPhase = db_row("SELECT COLUMN_TYPE FROM information_schema.COLUMNS
-        WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='pp_sessions' AND COLUMN_NAME='phase'");
-    if ($ppPhase && strpos($ppPhase['COLUMN_TYPE'], "'closed'") === false) {
-        db()->exec("ALTER TABLE `pp_sessions` MODIFY COLUMN `phase`
-            ENUM('waiting','voting','revealed','closed') NOT NULL DEFAULT 'waiting'");
-    }
-} catch (Throwable $e) { error_log('RetroApp auto-heal pp_sessions phase: ' . $e->getMessage()); }
+    // pp_sessions.phase ENUM: add 'closed'
+    try {
+        $ppPhase = db_row("SELECT COLUMN_TYPE FROM information_schema.COLUMNS
+            WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='pp_sessions' AND COLUMN_NAME='phase'");
+        if ($ppPhase && strpos($ppPhase['COLUMN_TYPE'], "'closed'") === false) {
+            db()->exec("ALTER TABLE `pp_sessions` MODIFY COLUMN `phase`
+                ENUM('waiting','voting','revealed','closed') NOT NULL DEFAULT 'waiting'");
+        }
+    } catch (Throwable $e) { error_log('RetroApp auto-heal pp_sessions phase: ' . $e->getMessage()); }
+}

@@ -201,6 +201,18 @@ function redirect(string $url): void
 function redirect_back(string $fallback = '/'): void
 {
     $ref = $_SERVER['HTTP_REFERER'] ?? '';
+    // Guard against open redirect: only allow same-origin Referers.
+    // Parse the Referer and compare host+scheme to the current request.
+    if ($ref !== '') {
+        $parsed = parse_url($ref);
+        $selfHost = ($_SERVER['HTTP_HOST'] ?? '');
+        $refHost  = ($parsed['host'] ?? '');
+        // Reject if host differs or scheme is anything other than http/https
+        $scheme = strtolower($parsed['scheme'] ?? '');
+        if ($refHost !== $selfHost || !in_array($scheme, ['http','https'], true)) {
+            $ref = '';
+        }
+    }
     redirect($ref ?: $fallback);
 }
 

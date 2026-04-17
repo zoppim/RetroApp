@@ -3,7 +3,7 @@
  * Planning Poker — Game Room (Public)
  * Participants access this page directly via code.
  * Admins land here after creating/opening a session.
- * Version: 1.9.9
+ * Version: 1.9.11
  */
 declare(strict_types=1);
 require_once __DIR__ . '/config.php';

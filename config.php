@@ -6,7 +6,7 @@
 
 // ─── Application ──────────────────────────────────────────────────────────────
 define('APP_NAME',    'RetroApp');
-define('APP_VERSION', '1.9.9');
+define('APP_VERSION', '1.9.11');
 define('APP_ENV',     'development'); // 'development' | 'production'
 define('BASE_URL',    'http://localhost/retroapp'); // no trailing slash — edit this
 

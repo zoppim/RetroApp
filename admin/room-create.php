@@ -161,7 +161,7 @@ if ($defaultType === 'daily') {
     $defaultCols = [['title'=>'Yesterday','color'=>'#3b82f6'],['title'=>'Today','color'=>'#22c55e'],['title'=>'Blockers','color'=>'#ef4444']];
 } else {
     $rawCols     = $retroColMap[$defaultFormat] ?? $retroColMap['start-stop-continue'];
-    $defaultCols = array_map(fn($c) => ['title'=>$c[0],'color'=>$c[1]], $rawCols);
+    $defaultCols = array_map(function($c){ return ['title'=>$c[0],'color'=>$c[1]]; }, $rawCols);
 }
 if ($isEdit && !empty($roomCols)) {
     $defaultCols = array_map(function($c) { return ['title'=>$c['title'],'color'=>$c['color']]; }, $roomCols);
@@ -274,7 +274,7 @@ $currentRetroFormat   = $_POST['retro_format'] ?? 'start-stop-continue';
         <?php $isActive = $currentRetroFormat === $fKey; ?>
         <div class="retro-fmt-card <?= $isActive ? 'retro-fmt-card--active' : '' ?>"
              data-format="<?= $fKey ?>"
-             data-cols='<?= json_safe(array_map(fn($c)=>['title'=>$c[0],'color'=>$c[1]], $fmt['cols'])) ?>'
+             data-cols='<?= json_safe(array_map(function($c){ return ['title'=>$c[0],'color'=>$c[1]]; }, $fmt['cols'])) ?>'
              onclick="selectRetroFormat('<?= $fKey ?>')">
           <div style="font-weight:700;font-size:.825rem;margin-bottom:.25rem;line-height:1.3;"><?= e($fmt['label']) ?></div>
           <div style="font-size:.72rem;color:var(--text-secondary);margin-bottom:.4rem;line-height:1.45;"><?= e($fmt['desc']) ?></div>
@@ -411,7 +411,9 @@ const DAILY_COLS = <?= json_safe([
     ['title'=>'Blockers','color'=>'#ef4444']
 ]) ?>;
 const RETRO_FORMAT_COLS = <?= json_safe(array_map(
-    fn($fmt) => array_map(fn($c) => ['title'=>$c[0],'color'=>$c[1]], $fmt['cols']),
+    function($fmt) {
+        return array_map(function($c){ return ['title'=>$c[0],'color'=>$c[1]]; }, $fmt['cols']);
+    },
     $retroFormats
 )) ?>;
 const RETRO_COLS = RETRO_FORMAT_COLS['start-stop-continue'];

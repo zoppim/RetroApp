@@ -9,7 +9,11 @@
 async function apiPost(url, data = {}) {
     const form = new FormData();
     for (const [k, v] of Object.entries(data)) form.append(k, v);
-    const res  = await fetch(url, { method: 'POST', body: form });
+    const res  = await fetch(url, {
+        method: 'POST',
+        body: form,
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
     return res.json();
 }
 

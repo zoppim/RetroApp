@@ -803,6 +803,26 @@ $migrations = [
             "INSERT INTO `app_meta` (`meta_key`, `meta_value`) VALUES ('app_version','1.9.9')
              ON DUPLICATE KEY UPDATE `meta_value` = '1.9.9'",
         ],
+    ],
+
+    [
+        'from'        => '1.9.9',
+        'to'          => '1.9.10',
+        'description' => 'Security: CSRF guard on api.php (X-Requested-With), same-origin redirect_back, upload size+MIME validation, bootstrap ENUM checks de-duplicated',
+        'steps' => [
+            "INSERT INTO `app_meta` (`meta_key`, `meta_value`) VALUES ('app_version','1.9.10')
+             ON DUPLICATE KEY UPDATE `meta_value` = '1.9.10'",
+        ],
+    ],
+
+    [
+        'from'        => '1.9.10',
+        'to'          => '1.9.11',
+        'description' => 'PHP 7.4 compat: replace all fn() arrow functions with closures; move define()/function to file scope in data.php; validate_import_file uses top-level define',
+        'steps' => [
+            "INSERT INTO `app_meta` (`meta_key`, `meta_value`) VALUES ('app_version','1.9.11')
+             ON DUPLICATE KEY UPDATE `meta_value` = '1.9.11'",
+        ],
     ]
 ];
 
